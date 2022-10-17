@@ -1,4 +1,14 @@
 class Settings:
+    bg_color = (230, 230, 230)
+    screen_width = 1200
+    screen_height = 800
+
+    ship_speed = 1.5
+    bullet_speed = 1.0
+    bullet_width = 3
+    bullet_height = 15
+    bullet_color = (60, 60, 60)
+    bullets_allowed = 3
     """A class to store all settings for Alien Invasion"""
 
 def __init__(self):
@@ -7,7 +17,7 @@ def __init__(self):
     # Screen Settings
     self.screen_width = 1200
     self.screen_height = 800
-    self.bg_color = (230,230,230)
+    self.bg_color = (230, 230, 230)
 
     #Ship Settings
     self.ship_speed = 1.5
