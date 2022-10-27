@@ -3,7 +3,7 @@ class Settings:
     screen_width = 1200
     screen_height = 800
 
-    ship_speed = 1.5
+    ship_speed = .5
     bullet_speed = 1.0
     bullet_width = 3
     bullet_height = 15
@@ -20,7 +20,7 @@ def __init__(self):
     self.bg_color = (230, 230, 230)
 
     #Ship Settings
-    self.ship_speed = 1.5
+    self.ship_speed = 2.0
 
     # Bullet settings
     self.bullet_speed = 1.0

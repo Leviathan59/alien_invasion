@@ -1,3 +1,4 @@
+#This is Anthony's PyGame
 import sys
 
 import pygame
@@ -17,9 +18,11 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-
-        self.screen = pygame.display.set_mode(
-            (self.settings.screen_width, self.settings.screen_height))
+        #self.screen = pygame.display.set_mode((300, 300))
+        #self.settings.screen_width = 300
+        #self.settings.screen_height = 300
+        #self.screen = pygame.display.set_mode(
+        #    (self.settings.screen_width, self.settings.screen_height))
 
         pygame.display.set_caption("Alien Invasion")
 
@@ -52,28 +55,26 @@ class AlienInvasion:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+
     def _check_keydown_events(self, event):
         """Respond to keypresses."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
-            self.ship.moving_left = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-            self.ship.moving_right = False
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
-        elif event.type == pygame.KEYUP:
-            self._check_keyup_events(event)
+
     def _check_keyup_events(self, event):
         """Respond to releases."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
-            self.ship.moving_left = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
-            self.ship.moving_right = False
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
@@ -90,6 +91,7 @@ class AlienInvasion:
 
         #make the most recently drawn screen visisble.
         pygame.display.flip()
+
 if __name__=='__main__':
     #make a game instance, and run the game.
     ai = AlienInvasion()
