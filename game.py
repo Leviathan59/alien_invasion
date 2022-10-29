@@ -1,9 +1,10 @@
 #This is Anthony's PyGame
 import sys
-
+from time import sleep
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -26,6 +27,9 @@ class AlienInvasion:
         #    (self.settings.screen_width, self.settings.screen_height))
 
         pygame.display.set_caption("Alien Invasion")
+
+        #create an instance to store game statistics
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -52,10 +56,22 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+        self._check_bullet_alien_collisions()
+
         #Watch for keyboard and mouse events.
         #check for any bullets that hit aliens. if so, get rid of bullet and alien
+
+
+    def _check_bullet_alien_collisions(self):
+        """Respond to bullet alien collisions"""
+        #remove the bullets and aliens after collisions
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
+        if not self.aliens:
+            #Destroy existing bullets and create a new fleet
+            self.bullets.empty()
+            self._create_fleet()
+
     def _check_events(self):
         """Respond to keypresses and mouse events."""
         for event in pygame.event.get():
@@ -144,6 +160,25 @@ class AlienInvasion:
         """Update the aliens positions of the aliens in the fleet"""
         self._check_fleet_edges()
         self.aliens.update()
+        #look for collisions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+    def _ship_hit(self):
+        """Respond to the ship after being hit by an alien"""
+        # decrement ships_left
+        self.stats.ships_left -= 1
+
+        # get rid of remaining aliens and bullets
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # create a new fleet and center the ship
+        self._create_fleet()
+        self.ship.center_ship()
+
+        #pause
+        sleep(0.5)
+
 
 
 
