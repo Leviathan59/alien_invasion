@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from settings import Settings
+from hwsettings import Settings
 
 
 class KeyGame:
