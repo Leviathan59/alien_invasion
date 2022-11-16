@@ -4,7 +4,7 @@ import pygame
 
 from hwsettings import Settings
 from star import Star
-
+from random import randint
 
 class StarsGame:
     """Overall class to manage game assets and behavior."""
@@ -42,15 +42,14 @@ class StarsGame:
 
     def _create_stars(self):
         """Create a sky full of stars."""
-        # Create an star and find the number of stars in a row.
-        # Spacing between each star is equal to two star widths.
+        # Create a star and find the number of stars in a row.
+        # Spacing between each star is equal to two stars widths.
         star = Star(self)
         star_width, star_height = star.rect.size
         available_space_x = self.settings.screen_width - (star_width)
         number_stars_x = available_space_x // (2 * star_width)
 
         # Determine the number of rows of stars that fit on the screen.
-        #   We'll just fill most of the screen with stars.
         available_space_y = (self.settings.screen_height -
                              (2 * star_height))
         number_rows = available_space_y // (2 * star_height)
@@ -61,20 +60,26 @@ class StarsGame:
                 self._create_star(star_number, row_number)
 
     def _create_star(self, star_number, row_number):
-        """Create an star and place it in the row."""
+        """Create a star and place it in the row."""
         star = Star(self)
         star_width, star_height = star.rect.size
-        star.x = star_width + 2 * star_width * star_number
-        star.rect.x = star.x
+        self.stars.add(star)
+        star.rect.x = star_width + 2 * star_width * star_number
         star.rect.y = star.rect.height + 2 * star.rect.height * row_number
+
+        # Randomize the positions of the stars.
+        star.rect.x += randint(-40, 40)
+        star.rect.y += randint(-40, 40)
         self.stars.add(star)
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         self.screen.fill(self.settings.bg_color)
         self.stars.draw(self.screen)
-
         pygame.display.flip()
+
+
+
 
 
 if __name__ == '__main__':
